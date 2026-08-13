@@ -1,0 +1,42 @@
+name: OSCRouter
+version: "1.0.0"
+slug: oscrouter
+description: Route UDP/TCP show control traffic between OSC, sACN, Art-Net, PSN, OTP and MIDI
+url: https://github.com/ETCLabs/OSCRouter
+arch:
+  - amd64
+  - aarch64
+
+# The web interface is served through Home Assistant's ingress, so it inherits
+# Home Assistant's authentication and needs no port of its own.
+ingress: true
+ingress_port: 8099
+panel_icon: mdi:router-network
+panel_title: OSCRouter
+
+# Not optional. sACN, Art-Net, PSN and OTP are multicast and broadcast
+# protocols; on Docker's bridge network they do not reach the LAN at all, and
+# OSC replies would come from the wrong source address.
+host_network: true
+
+# The routing configuration lives in the add-on's own config directory so it
+# survives updates and can be edited from the Home Assistant file editor.
+map:
+  - addon_config:rw
+
+init: false
+
+options:
+  config_file: oscrouter.osc.txt
+  reconnect_delay: 5000
+  direct_port: 0
+
+schema:
+  # Name of the routing file inside /config (the add-on's config directory).
+  config_file: str
+  # Milliseconds to wait before retrying a failed connection.
+  reconnect_delay: int(0,)
+  # Optionally also serve the interface on a plain port, bypassing ingress.
+  # 0 disables it. Anyone who can reach the port can change your routing, so
+  # leave this off unless you specifically need it.
+  direct_port: port

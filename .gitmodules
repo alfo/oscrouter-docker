@@ -1,0 +1,8 @@
+[submodule "src/OSCRouter"]
+	path = src/OSCRouter
+	url = https://github.com/alfo/OSCRouter.git
+	branch = linux-port
+[submodule "src/EosSyncLib"]
+	path = src/EosSyncLib
+	url = https://github.com/alfo/EosSyncLib.git
+	branch = linux-port

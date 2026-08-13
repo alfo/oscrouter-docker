@@ -1,0 +1,12 @@
+# Base images per architecture. Named explicitly because BUILD_FROM is no
+# longer provided by default as of Supervisor 2026.04.0.
+build_from:
+  amd64: ghcr.io/home-assistant/amd64-base-debian:trixie
+  aarch64: ghcr.io/home-assistant/aarch64-base-debian:trixie
+
+args:
+  # This repository. It carries OSCRouter and EosSyncLib as submodules under
+  # src/, so the build clones one repository recursively. Point SOURCE_REF at a
+  # tag rather than a branch if you would rather pin the add-on to a release.
+  SOURCE_REPO: https://github.com/alfo/oscrouter-docker
+  SOURCE_REF: main

@@ -1,0 +1,7 @@
+# Build output must not leak into the image build context.
+src/OSCRouter/build*/
+src/EosSyncLib/build*/
+**/.git/
+**/.DS_Store
+oscrouter/
+*.osc.txt

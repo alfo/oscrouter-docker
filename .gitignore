@@ -1,0 +1,10 @@
+# Build output
+build/
+build*/
+
+# macOS
+.DS_Store
+
+# Local routing configurations
+config/
+*.local.osc.txt
