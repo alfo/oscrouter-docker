@@ -1,7 +1,7 @@
 # OSCRouter
 
 Routes show control traffic between OSC, sACN, Art-Net, PosiStageNet, OTP and
-MIDI, with a routing table you edit from the Home Assistant sidebar.
+MIDI, with routes you edit from the Home Assistant sidebar.
 
 This wraps [ETC Labs OSCRouter](https://github.com/ETCLabs/OSCRouter), which is
 community software rather than an official ETC product.
@@ -59,20 +59,31 @@ Port 8099 is used for the web interface.
 
 ## Usage
 
-The **Routing** tab is one row per route:
+The **Routes** tab is one card per route. Collapsed, a card reads as what
+arrives, an arrow, and where it goes. Click it to edit.
 
-- **On** enables the route. Changing it rebuilds the routing engine.
+- The **tick** enables the route. Changing it rebuilds the routing engine.
 - **Mute** silences the destination without restarting anything.
-- The dots beside **Incoming** and **Outgoing** show connection state — grey for
-  uninitialised, amber connecting, green running, red failed — and flash white
-  as packets pass.
-- **Min** and **Max** scale numeric arguments; leave them empty to pass values
-  through untouched.
-- **Script** attaches JavaScript to a route, for rewrites the path syntax cannot
-  express.
+- The chip on the right says whether the route is carrying anything: `live`,
+  how long ago it last did, `no traffic` since the router started, or `off`.
+- The dots beside each end show connection state — grey for uninitialised, amber
+  connecting, green running, red failed — and flash white as packets pass.
+- Fields are named for the protocol you choose. The same field is the **Port**
+  for OSC, the **Universe** for sACN and Art-Net, and the **System number** for
+  OTP; fields a protocol does not use are hidden.
+- **Notes** is free text for why the route exists. It is saved with the
+  configuration, and is the one thing the desktop application does not keep.
+- **Value range** scales or clips numeric arguments; leave it alone to pass
+  values through untouched.
+- **Use a script instead** attaches JavaScript to a route, for rewrites the
+  path syntax cannot express.
+- **How addresses and levels are written** has worked examples of the `%1`,
+  `%2` syntax for the protocols that route uses.
 
-**Save & Apply** writes the file and restarts routing. Edits to the table are
-not live until you do.
+**Save & Apply** writes the file and restarts routing. Edits do nothing until
+you do, which is what the amber bar at the top is telling you. Enable and mute
+are the exception and take effect at once — unless there are unsaved edits, in
+which case they wait for the save too.
 
 The log at the bottom streams from the routing engine as it runs, which is the
 quickest way to tell whether packets are arriving at all and what they contain.

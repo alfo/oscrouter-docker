@@ -1,5 +1,46 @@
 # Changelog
 
+## 0.2.0 — a routing interface you can read
+
+The routing table was a faithful copy of the desktop application's, which is a
+twenty column spreadsheet in which the meaning of most cells depends on a
+protocol chosen two cells away. **Port** meant a UDP port, an sACN universe, an
+OTP system number or a MIDI port depending on the row; **Path** meant a filter
+on one side and a template on the other. It is now one card per route.
+
+**Each route says what it does.** Collapsed, a route reads as a sentence —
+what arrives, an arrow, where it goes — with its own status beside it: `live`,
+`no traffic`, `4m ago`, or `off`. Whether a route is actually carrying anything
+was previously knowable only by watching an indicator blink at the instant a
+packet passed.
+
+**Fields are named for the protocol you picked.** Choose sACN and the field is
+labelled **Universe**, with the note that universes start at 1; choose OTP and
+it is **System number**, 0 to 200. Fields a protocol does not use are not shown
+at all, and the ones it does use carry a line saying what they are for — that
+leaving an outgoing IP blank replies to the sender, that a blank incoming
+address filter routes everything.
+
+**Notes on every route.** A free text field for why the route exists, shown on
+the card. This is the one thing the file format did not carry and the desktop
+application still does not: it reads these files unchanged but drops the notes
+if it saves one back.
+
+**Other things it now tells you rather than hides:**
+
+- The multicast interface is its own field. The desktop application hides it
+  inside the IP field as `group,interface`.
+- Routes travelling over a defined TCP connection are marked `TCP`.
+- Editing shows an **unsaved changes** bar, because edits do nothing until they
+  are applied. Enable and mute still take effect immediately, except while there
+  are unsaved edits, so one click cannot write a half-finished configuration.
+- Problems name the route they are about, and clicking the name opens it.
+- Search across names, notes, addresses and protocols.
+- Duplicate, reorder and delete from a menu on each route.
+- Worked examples of the `%1`, `%2` path syntax, and of the sACN, Art-Net, PSN,
+  MIDI and OTP address forms, shown for the protocols that route actually uses.
+- A first run offers a few starting points rather than an empty form.
+
 ## 0.1.3 — stops losing routes, and says what will not run
 
 **Fixes data loss.** Opening a configuration containing a route the engine could

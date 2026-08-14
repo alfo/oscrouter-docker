@@ -91,10 +91,28 @@ the web interface shows them either way.
 
 ## The web interface
 
-Recreates the desktop layout: a routing table with per-row enable and mute, live
-per-endpoint activity indicators, TCP connections, settings, and a streaming
-log. It reads and writes the same `.osc.txt` files as the desktop application,
-so configurations move between them.
+One card per route rather than the desktop application's twenty column table.
+The table is faithful to the original but hard to read, because the meaning of
+most cells depends on a protocol chosen two cells away: "Port" is a UDP port, an
+sACN universe, an OTP system number or a MIDI port depending on the row, and
+"Path" is a filter on one side and a template on the other.
+
+So each card names its fields for the protocol actually selected — **Universe**
+for sACN, **System number** for OTP — hides the fields that protocol does not
+use, and explains the ones it does. Collapsed, a route reads as what arrives, an
+arrow, and where it goes, with a status beside it: `live`, `no traffic`,
+`4m ago`, or `off`. There is a free text note on every route, a search, an
+unsaved-changes bar, and worked examples of the `%1`, `%2` path syntax for the
+protocols that route uses.
+
+TCP connections, settings, a raw file editor and a streaming log are on their
+own tabs. It reads and writes the same `.osc.txt` files as the desktop
+application, so configurations move between them.
+
+The one addition to the file format is the per-route note, written as a
+nineteenth field. Every reader of this format stops at the last field it knows
+about, so the desktop application loads these files unchanged; it simply drops
+the notes if it saves one back out.
 
 The API underneath it, should you want to drive OSCRouter from a script:
 
@@ -110,6 +128,12 @@ The API underneath it, should you want to drive OSCRouter from a script:
 | `POST /api/routes/<i>/mute` | `{"value": bool}`, applies live |
 | `POST /api/routes/<i>/enable` | `{"value": bool}`, restarts the engine |
 | `GET /api/events` | Server-Sent Events: `log`, `itemStates`, `status` |
+
+`itemStates` carries a live connection state and activity flag per route
+endpoint, plus the time each last carried traffic. The flag is momentary — it is
+true for the tick a packet passed and cleared on the next — so it is only good
+for blinking an indicator; the timestamp is what answers "is this route doing
+anything".
 
 ## Home Assistant add-on
 
