@@ -1,3 +1,5 @@
 name: OSCRouter Add-ons
-url: https://github.com/ETCLabs/OSCRouter
+# This add-on repository, not the upstream project it wraps: the Supervisor
+# shows this as the repository's own URL and offers it for adding.
+url: https://github.com/alfo/oscrouter-docker
 maintainer: Alex Forey <me@alexforey.com>
