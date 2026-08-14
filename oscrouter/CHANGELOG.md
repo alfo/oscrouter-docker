@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.1.2 — icon placement
+
+Keeps the icon beside the title when the interface is narrow, such as on a phone
+opening the add-on from the Home Assistant sidebar. Previously it wrapped onto a
+line of its own.
+
 ## 0.1.1 — prebuilt images
 
 Installing no longer compiles OSCRouter on your machine. The add-on now pulls a
