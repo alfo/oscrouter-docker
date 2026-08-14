@@ -2,9 +2,23 @@
 # shellcheck shell=bash
 set -e
 
-CONFIG_FILE=$(bashio::config 'config_file')
-RECONNECT_DELAY=$(bashio::config 'reconnect_delay')
-DIRECT_PORT=$(bashio::config 'direct_port')
+# Read each option, falling back to the documented default if it comes back
+# empty or null. Without this, an unset option would silently produce a path of
+# "/config/" and the add-on would die on a "Is a directory" error that says
+# nothing about what actually went wrong.
+config_or_default() {
+  local value
+  value=$(bashio::config "$1")
+  if bashio::var.is_empty "${value}" || [ "${value}" = "null" ]; then
+    echo "$2"
+  else
+    echo "${value}"
+  fi
+}
+
+CONFIG_FILE=$(config_or_default 'config_file' 'oscrouter.osc.txt')
+RECONNECT_DELAY=$(config_or_default 'reconnect_delay' '5000')
+DIRECT_PORT=$(config_or_default 'direct_port' '0')
 
 # /config is the add-on's own configuration directory, mapped read-write by
 # addon_config so the routing file survives updates.
@@ -23,7 +37,7 @@ fi
 
 bashio::log.info "Starting OSCRouter with ${CONFIG_PATH}"
 
-if bashio::var.has_value "${DIRECT_PORT}" && [ "${DIRECT_PORT}" -ne 0 ]; then
+if [ "${DIRECT_PORT}" -ne 0 ] 2>/dev/null; then
   bashio::log.warning "Serving the interface directly on port ${DIRECT_PORT} with no authentication"
 fi
 
