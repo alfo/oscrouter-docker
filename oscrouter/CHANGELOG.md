@@ -1,5 +1,26 @@
 # Changelog
 
+## 0.2.2 — stops showing things twice
+
+Two separate causes of the same symptom, both of which show up most when
+something is retrying in the background — a TCP connection that cannot reach its
+far end, say, since that produces a steady supply of material to duplicate.
+
+**The log repeated itself.** Home Assistant's ingress closes connections it
+considers idle, and the browser silently reopens the event stream. On every one
+of those reconnections the add-on replayed its entire log history, so lines
+already on screen were appended again, and again. The stream now numbers its
+messages and a reconnecting browser is sent only what it missed. Restarting the
+add-on is recognised as a new run, so the log still fills correctly rather than
+being suppressed as already seen.
+
+**A route could appear twice in the list.** Dragging holds on to the card being
+moved, but the list is rebuilt whenever anything else re-renders it — an enable
+or mute request coming back while a drag was in progress was enough. The next
+movement put the held card back into a list it no longer belonged to, leaving
+two copies of the same route. Worse, saving in that state could write the route
+to the configuration twice.
+
 ## 0.2.1 — drag to reorder
 
 Routes can be dragged into order by the grip at the left of each card. Order
