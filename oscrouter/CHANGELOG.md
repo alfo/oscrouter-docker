@@ -1,5 +1,17 @@
 # Changelog
 
+## 0.1.1 — prebuilt images
+
+Installing no longer compiles OSCRouter on your machine. The add-on now pulls a
+prebuilt image from GitHub Container Registry, built for `amd64` and `aarch64`,
+which turns an install on a Raspberry Pi from the better part of an hour into a
+download.
+
+To go back to building from source on the machine, delete the `image:` line from
+`config.yaml`.
+
+Also adds the OSCRouter icon, in the add-on listing and in the web interface.
+
 ## 0.1.0 — first pre-release
 
 First packaged version. **Not yet run on a live Home Assistant install**, so

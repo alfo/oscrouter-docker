@@ -1,0 +1,111 @@
+name: Publish add-on images
+
+# Home Assistant installs an add-on far faster when it can pull a prebuilt image
+# than when it has to compile OSCRouter on the target machine, which on a
+# Raspberry Pi is the difference between a minute and the better part of an hour.
+#
+# The Supervisor expects one image per architecture, named with the {arch}
+# placeholder from config.yaml and tagged with exactly the version in
+# config.yaml, so both are derived from that file rather than written twice.
+
+on:
+  push:
+    tags:
+      - "v*"
+  release:
+    types: [published]
+  workflow_dispatch:
+    inputs:
+      ref:
+        description: Tag or branch to build from
+        required: true
+        default: main
+
+permissions:
+  contents: read
+  packages: write
+
+jobs:
+  build:
+    name: ${{ matrix.arch }}
+    # Built on a native runner per architecture rather than under QEMU: this
+    # compiles a large C++ codebase, and emulating aarch64 turns a few minutes
+    # into the better part of an hour.
+    runs-on: ${{ matrix.runner }}
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - arch: amd64
+            platform: linux/amd64
+            runner: ubuntu-latest
+          - arch: aarch64
+            platform: linux/arm64
+            runner: ubuntu-24.04-arm
+
+    steps:
+      - name: Work out what to build
+        id: target
+        run: |
+          ref="${{ github.event.release.tag_name || inputs.ref || github.ref_name }}"
+          echo "ref=${ref}" >> "$GITHUB_OUTPUT"
+
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ steps.target.outputs.ref }}
+
+      - name: Read the add-on version
+        id: addon
+        run: |
+          # The Supervisor pulls <image>:<version> using the version from
+          # config.yaml, so the image tag has to match it exactly.
+          version=$(grep -E '^version:' oscrouter/config.yaml | sed -E 's/^version: *"?([^"]*)"?/\1/')
+          if [ -z "${version}" ]; then
+            echo "could not read version from oscrouter/config.yaml" >&2
+            exit 1
+          fi
+          echo "version=${version}" >> "$GITHUB_OUTPUT"
+          echo "Building version ${version} from ${{ steps.target.outputs.ref }}"
+
+      - uses: docker/setup-buildx-action@v3
+
+      - uses: docker/login-action@v3
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Build and push
+        uses: docker/build-push-action@v6
+        with:
+          # The add-on Dockerfile clones its sources, so the context only needs
+          # to carry the add-on directory itself. This is the same Dockerfile
+          # the Supervisor would run locally, so what is published here is what
+          # a local build would have produced.
+          context: ./oscrouter
+          platforms: ${{ matrix.platform }}
+          push: true
+          # The Supervisor pulls through the Docker API and does not expect the
+          # extra attestation manifests buildx attaches by default.
+          provenance: false
+          sbom: false
+          build-args: |
+            BUILD_FROM=ghcr.io/home-assistant/${{ matrix.arch }}-base-debian:trixie
+            BUILD_ARCH=${{ matrix.arch }}
+            SOURCE_REPO=${{ github.server_url }}/${{ github.repository }}
+            SOURCE_REF=${{ steps.target.outputs.ref }}
+          tags: |
+            ghcr.io/${{ github.repository_owner }}/oscrouter-${{ matrix.arch }}:${{ steps.addon.outputs.version }}
+            ghcr.io/${{ github.repository_owner }}/oscrouter-${{ matrix.arch }}:latest
+          cache-from: type=gha,scope=${{ matrix.arch }}
+          cache-to: type=gha,mode=max,scope=${{ matrix.arch }}
+
+      - name: Summary
+        run: |
+          {
+            echo "### ${{ matrix.arch }}"
+            echo
+            echo '`ghcr.io/${{ github.repository_owner }}/oscrouter-${{ matrix.arch }}:${{ steps.addon.outputs.version }}`'
+            echo
+            echo "Built from \`${{ steps.target.outputs.ref }}\`."
+          } >> "$GITHUB_STEP_SUMMARY"

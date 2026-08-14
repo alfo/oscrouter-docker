@@ -1,5 +1,5 @@
 name: OSCRouter
-version: "0.1.0"
+version: "0.1.1"
 slug: oscrouter
 description: Route UDP/TCP show control traffic between OSC, sACN, Art-Net, PSN, OTP and MIDI
 url: https://github.com/alfo/oscrouter-docker
@@ -8,6 +8,14 @@ stage: experimental
 arch:
   - amd64
   - aarch64
+
+# Pull a prebuilt image rather than compiling OSCRouter on the target machine,
+# which takes the better part of an hour on a Raspberry Pi. {arch} is filled in
+# by the Supervisor, and the tag it pulls is the version above, so the two have
+# to be published together -- see .github/workflows/publish.yml.
+#
+# Delete this line to build from source on the machine instead.
+image: ghcr.io/alfo/oscrouter-{arch}
 
 # The web interface is served through Home Assistant's ingress, so it inherits
 # Home Assistant's authentication and needs no port of its own.

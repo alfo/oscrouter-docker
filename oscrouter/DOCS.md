@@ -18,14 +18,16 @@ community software rather than an official ETC product.
 3. Install **OSCRouter**, then **Start** it.
 4. Open it from the sidebar.
 
-The first start builds the image from source, including compiling OSCRouter
-itself. Expect it to take a while, and rather longer on a Raspberry Pi than on
-an Intel box.
+Installing pulls a prebuilt image for your architecture, so it takes about as
+long as any other add-on.
 
-To build from your own fork instead, point `SOURCE_REPO` in `build.yaml` at it.
-It has to be a repository laid out like this one, with OSCRouter and EosSyncLib
-as submodules under `src/` — upstream ETC Labs builds for macOS and Windows
-only and will not compile here.
+To build from source on the machine instead — because you have changed
+something, or want to run your own fork — delete the `image:` line from
+`config.yaml`. The build then clones `SOURCE_REPO` from `build.yaml`, which has
+to be a repository laid out like this one, with OSCRouter and EosSyncLib as
+submodules under `src/`; upstream ETC Labs builds for macOS and Windows only and
+will not compile here. Expect that to take a while, and considerably longer on a
+Raspberry Pi than on an Intel box.
 
 ## Configuration
 

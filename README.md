@@ -115,6 +115,15 @@ The API underneath it, should you want to drive OSCRouter from a script:
 
 See [`oscrouter/DOCS.md`](oscrouter/DOCS.md).
 
+Installing pulls a prebuilt image rather than compiling on the target machine.
+`.github/workflows/publish.yml` builds one image per architecture on tag push
+and publishes them to GHCR as
+`ghcr.io/alfo/oscrouter-{amd64,aarch64}:<version>`, where the tag matches the
+`version` in `oscrouter/config.yaml` — the Supervisor pulls exactly that, so the
+two are read from the same place rather than written twice. Each architecture is
+built on a native runner, since emulating aarch64 to compile this much C++ is
+painfully slow.
+
 ## What the Linux port involved
 
 Both `Router.h` and EosSyncLib's `EosTcp.cpp` branch as "Windows or POSIX", so
