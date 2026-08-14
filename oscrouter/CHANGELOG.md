@@ -1,5 +1,28 @@
 # Changelog
 
+## 0.1.3 — stops losing routes, and says what will not run
+
+**Fixes data loss.** Opening a configuration containing a route the engine could
+not use — an sACN route with universe 0, or any half-finished row — dropped that
+route and then wrote the result back, deleting it. Routes are now kept, and the
+**File** tab writes back exactly what you typed.
+
+**Says why nothing is running.** A route can be well formed and still never
+carry anything, and previously the only sign was one line in the log. Problems
+now appear above the routing table with the offending row marked:
+
+- an incoming port or universe that is not valid for its protocol, which stops
+  that route running — universe 0 for sACN is the common one, since the column
+  says "Port" and 0 looks unset rather than impossible
+- an incoming IP of `127.0.0.1`, which accepts traffic only from Home Assistant
+  itself and looks exactly like a wrong port from the sending end
+- nothing runnable at all, which is why routing would not start
+
+**Fixes a phantom route.** The settings line was also being parsed as a route,
+then silently discarded for having no port.
+
+`/api/status` now reports the running version.
+
 ## 0.1.2 — icon placement
 
 Keeps the icon beside the title when the interface is narrow, such as on a phone

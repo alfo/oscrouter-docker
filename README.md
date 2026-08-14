@@ -103,7 +103,7 @@ The API underneath it, should you want to drive OSCRouter from a script:
 | `GET/PUT /api/config` | Whole configuration as JSON |
 | `POST /api/config/apply` | Persist and restart the routing engine |
 | `GET/PUT /api/file` | The raw `.osc.txt` |
-| `GET /api/status` | Run state and counts |
+| `GET /api/status` | Run state, version, counts, and configuration issues |
 | `GET /api/interfaces` | Network interfaces for the interface pickers |
 | `POST /api/start`, `/api/stop` | Routing engine lifecycle |
 | `POST /api/mute-all` | `{"incoming": bool, "outgoing": bool}` |
