@@ -6,6 +6,11 @@ MIDI, with a routing table you edit from the Home Assistant sidebar.
 This wraps [ETC Labs OSCRouter](https://github.com/ETCLabs/OSCRouter), which is
 community software rather than an official ETC product.
 
+> **Pre-release.** The routing engine, the container and the web interface are
+> tested, but this add-on has not yet been installed on a live Home Assistant.
+> If it misbehaves, the add-on log is the place to look — the routing engine
+> writes to it as well as to the browser.
+
 ## Installation
 
 1. In Home Assistant, go to **Settings → Add-ons → Add-on Store**.

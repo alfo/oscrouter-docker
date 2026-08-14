@@ -1,8 +1,10 @@
 name: OSCRouter
-version: "1.0.0"
+version: "0.1.0"
 slug: oscrouter
 description: Route UDP/TCP show control traffic between OSC, sACN, Art-Net, PSN, OTP and MIDI
-url: https://github.com/ETCLabs/OSCRouter
+url: https://github.com/alfo/oscrouter-docker
+# Not yet run on a live Home Assistant install; see DOCS.md.
+stage: experimental
 arch:
   - amd64
   - aarch64

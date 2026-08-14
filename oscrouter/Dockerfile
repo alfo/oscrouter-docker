@@ -31,7 +31,10 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     && rm -rf /var/lib/apt/lists/*
 
 WORKDIR /work
-RUN git clone --depth 1 --recurse-submodules --shallow-submodules \
+# Submodules are cloned with full history on purpose. They are pinned to exact
+# commits, and --shallow-submodules would only fetch the tip of their branch, so
+# building an older tag would fail as soon as those branches moved on.
+RUN git clone --depth 1 --recurse-submodules \
       --branch "${SOURCE_REF}" "${SOURCE_REPO}" .
 
 WORKDIR /src

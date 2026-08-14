@@ -6,7 +6,10 @@ build_from:
 
 args:
   # This repository. It carries OSCRouter and EosSyncLib as submodules under
-  # src/, so the build clones one repository recursively. Point SOURCE_REF at a
-  # tag rather than a branch if you would rather pin the add-on to a release.
+  # src/, so the build clones one repository recursively.
+  #
+  # Pinned to a tag rather than a branch so that installing the add-on builds a
+  # known state, and so a later push to main cannot change what an installed
+  # add-on rebuilds. Move this to the next tag when releasing.
   SOURCE_REPO: https://github.com/alfo/oscrouter-docker
-  SOURCE_REF: main
+  SOURCE_REF: v0.1.0
