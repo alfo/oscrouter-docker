@@ -1,5 +1,5 @@
 name: OSCRouter
-version: "0.2.2"
+version: "0.3.0"
 slug: oscrouter
 description: Route UDP/TCP show control traffic between OSC, sACN, Art-Net, PSN, OTP and MIDI
 url: https://github.com/alfo/oscrouter-docker

@@ -84,6 +84,22 @@ arrives, an arrow, and where it goes. Click it to edit.
 - **How addresses and levels are written** has worked examples of the `%1`,
   `%2` syntax for the protocols that route uses.
 
+## Variables
+
+The **Variables** tab holds named addresses. Give the address of a console, a
+media server or a lighting desk a name once, then write `$name` instead of the
+IP in any route or TCP connection.
+
+The point is what happens when something moves. A desk that appears in eight
+routes is one edit here rather than eight edits spread across the routing list,
+with no chance of missing one. Renaming a variable updates the routes that refer
+to it, and each row shows how many addresses are using it.
+
+Routes show the name rather than the address, since that is what makes them
+readable; hover to see what it currently resolves to. A route referring to a
+name that no longer exists is reported as an error and is not run — nothing is
+routed to a guess.
+
 **Save & Apply** writes the file and restarts routing. Edits do nothing until
 you do, which is what the amber bar at the top is telling you. Enable and mute
 are the exception and take effect at once — unless there are unsaved edits, in

@@ -106,14 +106,23 @@ unsaved-changes bar, drag-to-reorder that also works by touch and by keyboard,
 and worked examples of the `%1`, `%2` path syntax for the protocols that route
 uses.
 
+**Variables** are named addresses, on their own tab and written `$name` wherever
+an IP would go. A console that appears in eight routes is defined once, and
+moving it is one edit rather than eight. They are substituted only into what the
+routing engine is given — the configuration keeps the name — and renaming one
+updates the routes that refer to it.
+
 TCP connections, settings, a raw file editor and a streaming log are on their
 own tabs. It reads and writes the same `.osc.txt` files as the desktop
 application, so configurations move between them.
 
-The one addition to the file format is the per-route note, written as a
-nineteenth field. Every reader of this format stops at the last field it knows
-about, so the desktop application loads these files unchanged; it simply drops
-the notes if it saves one back out.
+Two things in the format the desktop application does not write: the per-route
+note, a nineteenth field on the route record, and the `Variable,<name>,<value>`
+record. Every reader of this format stops at the last field it knows about and
+skips lines it does not recognise, so the desktop application loads these files
+unchanged — it just drops both if it saves one back out. A route left referring
+to a name nothing defines is reported as an error rather than silently routing
+somewhere unintended.
 
 The API underneath it, should you want to drive OSCRouter from a script:
 

@@ -1,5 +1,33 @@
 # Changelog
 
+## 0.3.0 — variables
+
+Named addresses, on a tab of their own. Give an address a name once, then write
+`$name` instead of the IP in any route or TCP connection.
+
+The problem this solves is that a console or a media server tends to appear in
+every route that touches it. Moving it meant editing each of those routes and
+getting all of them right; now it is one edit, and the routes follow.
+
+- Written `$name` in any address field, on either end of a route, in the
+  multicast interface, or in a TCP connection.
+- Routes show the name rather than the address, since that is what makes them
+  readable at a glance. Hovering shows what it currently resolves to, and the
+  route editor shows it under the field.
+- Each variable lists how many addresses use it, so it is clear what a change
+  will affect before making it.
+- Renaming updates every route that refers to it.
+- A route referring to a name that nothing defines is reported as an error and
+  is not run, rather than being routed to a guess.
+
+Substitution happens only on the way to the routing engine. The configuration
+file keeps the names, which is the entire point of them.
+
+The desktop OSCRouter application reads these files unchanged — it skips the
+`Variable` records the same way it skips anything else it does not recognise —
+but it does not write them, so saving a file there drops the definitions and
+leaves the routes reporting the names as undefined.
+
 ## 0.2.2 — stops showing things twice
 
 Two separate causes of the same symptom, both of which show up most when
