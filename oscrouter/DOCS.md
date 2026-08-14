@@ -6,10 +6,9 @@ MIDI, with a routing table you edit from the Home Assistant sidebar.
 This wraps [ETC Labs OSCRouter](https://github.com/ETCLabs/OSCRouter), which is
 community software rather than an official ETC product.
 
-> **Pre-release.** The routing engine, the container and the web interface are
-> tested, but this add-on has not yet been installed on a live Home Assistant.
-> If it misbehaves, the add-on log is the place to look — the routing engine
-> writes to it as well as to the browser.
+> **Pre-release.** It installs and runs on a live Home Assistant, but it has not
+> been through a real show. If it misbehaves, the add-on log is the place to
+> look — the routing engine writes there as well as to the browser.
 
 ## Installation
 
@@ -83,6 +82,13 @@ quickest way to tell whether packets are arriving at all and what they contain.
 **Nothing routes.** Check the log for `UDP IN` lines. If none appear, the
 packets are not reaching the host — check the source device's destination
 address, and that the port is not taken by something else on the host.
+
+**Nothing arrives from other machines, but the route looks right.** Check the
+incoming **IP**. Set to `127.0.0.1` it accepts only what is sent from Home
+Assistant itself, so a console or laptop elsewhere on the network cannot reach
+it however correct the port is. Leave it **empty** to listen on every interface,
+which is usually what you want, or set it to the Home Assistant host's own LAN
+address to listen on just that one.
 
 **sACN or Art-Net see nothing.** Set the interface explicitly in **Settings**
 rather than leaving it on default; a Home Assistant host with several interfaces

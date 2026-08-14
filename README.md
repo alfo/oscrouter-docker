@@ -159,12 +159,15 @@ multicast; the web interface, its live log and activity indicators, and the
 enable/mute controls behave and persist; ingress peer restriction and
 `X-Ingress-Path` stripping work against a simulated Supervisor.
 
-Not verified: **the Home Assistant add-on has not been installed on a real
-Home Assistant instance.** Its YAML, `run.sh`, the ingress peer restriction and
-`X-Ingress-Path` handling were all checked in isolation, and the add-on builds
-the same sources by the same steps as the plain container, which is verified —
-but the add-on build itself, and the Supervisor's handling of ingress and
-`host_network`, have not been exercised end to end.
+Verified on a live Home Assistant install as of v0.1.2: the Supervisor pulls the
+prebuilt image and starts the add-on, the routing file persists in the add-on's
+config directory, the web interface works, and `host_network` genuinely gives
+the container the host's own interfaces rather than a bridge — it reports the
+host NIC alongside `docker0` and `hassio`, which is what sACN, Art-Net, PSN and
+OTP need.
+
+Not yet exercised on that install: ingress specifically (it was reached through
+`direct_port`), and the sACN stack, since the configuration there is OSC only.
 
 ## Known limitations
 
