@@ -62,6 +62,10 @@ Port 8099 is used for the web interface.
 The **Routes** tab is one card per route. Collapsed, a card reads as what
 arrives, an arrow, and where it goes. Click it to edit.
 
+- The **grip** at the left drags a route into a different position, by mouse or
+  by touch; with it focused, the up and down arrow keys do the same. Order means
+  nothing to the routing engine — it matches on addresses, not position — so
+  this is purely for arranging things the way you think about them.
 - The **tick** enables the route. Changing it rebuilds the routing engine.
 - **Mute** silences the destination without restarting anything.
 - The chip on the right says whether the route is carrying anything: `live`,

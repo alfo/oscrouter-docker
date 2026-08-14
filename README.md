@@ -102,8 +102,9 @@ for sACN, **System number** for OTP — hides the fields that protocol does not
 use, and explains the ones it does. Collapsed, a route reads as what arrives, an
 arrow, and where it goes, with a status beside it: `live`, `no traffic`,
 `4m ago`, or `off`. There is a free text note on every route, a search, an
-unsaved-changes bar, and worked examples of the `%1`, `%2` path syntax for the
-protocols that route uses.
+unsaved-changes bar, drag-to-reorder that also works by touch and by keyboard,
+and worked examples of the `%1`, `%2` path syntax for the protocols that route
+uses.
 
 TCP connections, settings, a raw file editor and a streaming log are on their
 own tabs. It reads and writes the same `.osc.txt` files as the desktop

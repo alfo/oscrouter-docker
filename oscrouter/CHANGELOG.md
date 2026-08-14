@@ -1,5 +1,23 @@
 # Changelog
 
+## 0.2.1 — drag to reorder
+
+Routes can be dragged into order by the grip at the left of each card. Order
+means nothing to the routing engine, which matches on addresses rather than
+position, so this is for arranging a configuration the way the person reading it
+thinks about it — grouping everything for one console together, or pushing the
+routes you are not sure about to the bottom.
+
+Works with a mouse and with touch, so it is usable from a phone opening the
+add-on from the Home Assistant sidebar. The grip is also a keyboard control:
+focus it and use the up and down arrows. Dragging is disabled while a search is
+active, since only some of the routes are on screen and there is no sensible
+answer to where a dragged one should land. **Move up** and **Move down** remain
+in each route's menu.
+
+Also fixes the route header wrapping on narrow screens, where the name could be
+pushed onto a line below the controls that describe it.
+
 ## 0.2.0 — a routing interface you can read
 
 The routing table was a faithful copy of the desktop application's, which is a
